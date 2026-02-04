@@ -16,6 +16,14 @@ export interface ChatMessage {
   timestamp: number;
 }
 
+interface UsersMessage {
+  type: 'users';
+  users: string[];
+  timestamp: number;
+}
+
+type ServerMessage = ChatMessage | UsersMessage;
+
 // Decorador del servicio
 @Injectable({
   providedIn: 'root',
@@ -28,6 +36,8 @@ export class WebsocketService {
   // Estado reactivo del usuario y mensajes
   username = signal<string>('');
   messages = signal<ChatMessage[]>([]);
+  connectedUsers = signal<string[]>([]);
+
   private router = inject(Router);
 
   // Ciclo de vida del servicio
@@ -40,11 +50,9 @@ export class WebsocketService {
     const savedUsername = localStorage.getItem('username');
     if (savedUsername) {
       this.connect(savedUsername);
-      // obtener los mensajes
-      this.loadChatMessages();
+      this.loadChatMessages(); // obtener los mensajes
     } else {
-      // redirigir al login
-      this.router.navigate(['/']);
+      this.router.navigate(['/']); // redirigir al login
     }
   }
 
@@ -67,10 +75,17 @@ export class WebsocketService {
     };
 
     this.socket.onmessage = (event) => {
-      const message = JSON.parse(event.data) as ChatMessage;
+      const data = JSON.parse(event.data) as ServerMessage;
 
+      // lista de usuarios conectados
+      if (data.type === 'users') {
+        this.connectedUsers.set(data.users);
+        return;
+      }
+
+      // mensajes normales (join, leave, message)
       this.messages.update((oldMessages) => {
-        const messages = [...oldMessages, message];
+        const messages = [...oldMessages, data];
         localStorage.setItem('messages', JSON.stringify(messages));
         return messages;
       });
@@ -78,6 +93,7 @@ export class WebsocketService {
 
     this.socket.onclose = () => {
       this.socket = null;
+      this.connectedUsers.set([]); // limpieza
       console.log('WebSocket connection closed');
     };
   }
@@ -114,10 +130,11 @@ export class WebsocketService {
     if (this.socket) {
       this.socket.close();
       this.username.set('');
-      this.router.navigateByUrl('/');
       this.messages.set([]);
+      this.connectedUsers.set([]);
       localStorage.removeItem('username');
       localStorage.removeItem('messages');
+      this.router.navigateByUrl('/');
     }
   }
 }
