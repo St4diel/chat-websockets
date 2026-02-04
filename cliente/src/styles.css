@@ -1,1 +1,7 @@
+/*
+ - Importación global de Tailwind CSS.
+ - Este archivo habilita el uso de las utilidades de Tailwind
+ - en toda la aplicación Angular.
+ */
+
 @import "tailwindcss";

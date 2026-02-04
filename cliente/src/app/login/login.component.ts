@@ -1,8 +1,16 @@
+/**
+ * Componente de inicio de sesión.
+ * Este archivo permite al usuario ingresar su nombre,
+ * iniciar la conexión con el servidor WebSocket y
+ * redirigirlo a la vista principal del chat.
+ */
+
 import { Component, inject } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { WebsocketService } from '../websocket.service';
 import { Router } from "@angular/router";
 
+// Definición del componente
 @Component({
   selector: 'app-login',
   template: `<div class="flex flex-col justify-center min-h-screen items-center">
@@ -31,10 +39,12 @@ import { Router } from "@angular/router";
 })
 
 export default class LoginComponent {
+  // Propiedades y dependencias
   username = new FormControl('');
   private WebsocketService = inject(WebsocketService);
   private route = inject(Router)
 
+  // Lógica del componente
   goToChat() {
     const username = this.username.value;
 

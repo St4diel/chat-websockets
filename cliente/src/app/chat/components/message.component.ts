@@ -1,7 +1,15 @@
+/**
+ * Componente de mensaje.
+ * Este archivo se encarga únicamente de la presentación visual
+ * de cada mensaje del chat, diferenciando los mensajes propios
+ * de los mensajes enviados por otros usuarios.
+ */
+
 import { NgClass } from "@angular/common";
 import { Component, input } from "@angular/core";
 import { ChatMessage } from "../../websocket.service";
 
+// Definición del componente
 @Component({
   selector: 'app-message',
   template: `
@@ -26,7 +34,7 @@ import { ChatMessage } from "../../websocket.service";
   imports: [NgClass],
 })
 export class MessageComponent {
+  // Propiedades de entrada
   myMessage = input<boolean>(false);
-
   message = input.required<ChatMessage>();
 }

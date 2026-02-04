@@ -1,6 +1,14 @@
+/**
+ * Servicio WebSocket de Angular.
+ * Este archivo gestiona la conexión con el servidor WebSocket,
+ * el envío y recepción de mensajes en tiempo real, así como
+ * la persistencia básica de la sesión del usuario.
+ */
+
 import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 
+// Interfaces y contratos
 export interface ChatMessage {
   type: "message" | "join" | "leave";
   user: string;
@@ -8,21 +16,26 @@ export interface ChatMessage {
   timestamp: number;
 }
 
+// Decorador del servicio
 @Injectable({
   providedIn: 'root',
 })
 
 export class WebsocketService {
+  // Propiedades y estado
   private socket: WebSocket | null = null;
 
+  // Estado reactivo del usuario y mensajes
   username = signal<string>('');
   messages = signal<ChatMessage[]>([]);
   private router = inject(Router);
 
+  // Ciclo de vida del servicio
   constructor() {
     this.loadSession();
   }
 
+  // Gestión de sesión
   private loadSession() {
     const savedUsername = localStorage.getItem('username');
     if (savedUsername) {
@@ -43,12 +56,9 @@ export class WebsocketService {
   }
 
   connect(username: string) {
-    /*if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      return;
-    }*/
-
     localStorage.setItem('username', username);
     this.username.set(username);
+    // Conexión al servidor WebSocket (Bun)
     this.socket = new WebSocket('ws://localhost:3000'); // 3000 por defecto en Bun
 
     this.socket.onopen = () => {
@@ -72,6 +82,7 @@ export class WebsocketService {
     };
   }
 
+  // Envío de mensajes
   sendChatMessage(content: string) {
     const message: ChatMessage = {
       type: 'message',
@@ -98,6 +109,7 @@ export class WebsocketService {
     }
   }
 
+  // Cierre de sesión
   logOut() {
     if (this.socket) {
       this.socket.close();

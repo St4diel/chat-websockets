@@ -1,9 +1,16 @@
+/**
+ * Componente principal del chat.
+ * Este archivo gestiona la visualización de los mensajes en tiempo real,
+ * el envío de nuevos mensajes al servidor WebSocket y
+ * el cierre de sesión del usuario.
+ */
+
 import { Component, inject } from "@angular/core";
 import { MessageComponent } from "./components/message.component";
 import { WebsocketService } from '../websocket.service';
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 
-// Aqui va el componente del chat
+// Definición del componente
 @Component({
   selector: 'app-chat',
   template: `
@@ -48,13 +55,14 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 })
 
 export default class ChatComponent {
+  // Dependencias y estado
   private websocketService  = inject(WebsocketService);
 
   messages = this.websocketService.messages;
   username = this.websocketService.username;
   messageControl = new FormControl('');
 
-
+  // Lógica del componente
   sendMessage() {
     const value = this.messageControl.value;
     if (!value) return;
