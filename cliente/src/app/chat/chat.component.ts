@@ -14,18 +14,31 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
   selector: 'app-chat',
   template: `
     <div class="h-screen flex flex-col overflow-hidden">
-      <header class="bg-gray-200 p-3 flex items-center justify-end gap-2">
-        <button
-          class="bg-gray-700 rounded-md text-white px-4 py-2"
-          (click)="toggleUsers()">
-          Usuarios ({{ connectedUsers().length }})
-        </button>
+      <header class="bg-linear-to-r from-slate-900 via-gray-800 to-black
+         p-3 flex items-center justify-between shadow-md">
 
-        <button
-          class="bg-black rounded-md text-white px-4 py-2"
-          (click)="logout()">
-          Cerrar Sesión
-        </button>
+        <!-- Logo -->
+        <div class="flex items-center gap-1">
+          <img src="image/logo_socketx.png" alt="Chat Logo" class="w-15 h-11" />
+          <span class="text-white font-semibold text-lg">SocketX</span>
+        </div>
+
+        <!-- Botones-->
+        <div class="ml-auto flex items-center gap-3">
+          <button
+            class="bg-slate-900 hover:bg-slate-700 transition border border-white
+                  rounded-md cursor-pointer text-white px-4 py-2 font-medium"
+                  (click)="toggleUsers()">
+            Usuarios ({{ connectedUsers().length }})
+          </button>
+
+          <button
+            class="bg-white text-black px-4 py-2 font-medium rounded-md cursor-pointer
+                   hover:bg-gray-100 transition"
+                   (click)="logout()">
+            Cerrar Sesión
+          </button>
+        </div>
       </header>
 
       <!-- Ventana de usuarios conectados -->
@@ -51,29 +64,35 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
         </div>
       }
 
-      <!-- Mensajes -->
-      <div class="flex-1 p-4 overflow-y-auto flex flex-col gap-4" #chatContainer (scroll)="onScroll()">
-          <!--<app-message/>
-          <app-message [myMessage]="true"/>-->
-          @for (message of messages(); track message) {
-            <app-message
-              [message]="message"
-              [myMessage]="username() === message.user"/>
-          }
-      </div>
-
-      <!-- Input -->
-      <div class="flex gap-x-4 mt-4 p-4">
-        <input
-          type="text"
-          class="w-full rounded-md border outline-none border-gray-200 p-2"
-          [formControl]="messageControl"
-          (keydown.enter)="sendMessage()"/>
-        <button
-          class="cursor-pointer bg-black text-white px-4 py-2 rounded-md"
-          (click)="sendMessage()">
-          Enviar
-        </button>
+      <!-- Área de chat -->
+      <div class="chat-bg relative flex-1 flex flex-col min-h-0">
+        <div class="absolute inset-0 bg-gray-800/60 pointer-events-none"></div>
+        <!-- Mensajes -->
+        <div class="relative z-10 flex flex-col flex-1 min-h-0">
+          <div class="flex-1 p-4 overflow-y-auto flex flex-col gap-4" #chatContainer (scroll)="onScroll()">
+              <!--<app-message/>
+              <app-message [myMessage]="true"/>-->
+              @for (message of messages(); track message) {
+                <app-message
+                  [message]="message"
+                  [myMessage]="username() === message.user"/>
+              }
+          </div>
+          <!-- Input -->
+          <div class="flex gap-x-1 p-4 shrink-0">
+            <input
+              type="text"
+              class="w-full rounded-md border outline-none border-gray-200 p-2 bg-white"
+              placeholder="Escribe tu mensaje..."
+              [formControl]="messageControl"
+              (keydown.enter)="sendMessage()"/>
+            <button
+              class="cursor-pointer bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-700 transition"
+              (click)="sendMessage()">
+              Enviar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `,

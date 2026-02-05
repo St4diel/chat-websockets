@@ -15,7 +15,7 @@ import { ChatMessage } from "../../websocket.service";
   template: `
     @if (message().type !== 'message') {
       <div class="w-full flex justify-center my-2">
-        <div class="px-4 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700">
+        <div class="px-4 py-2 rounded-md text-sm font-medium bg-gray-100 text-black">
           {{ message().content }}
         </div>
       </div>
@@ -28,7 +28,7 @@ import { ChatMessage } from "../../websocket.service";
         <!-- Avatar -->
         <div
           class="rounded-full font-semibold text-xl w-10 h-10 flex justify-center items-center"
-          [ngClass]="myMessage() ? 'bg-blue-100' : 'bg-gray-200'"
+          [ngClass]="myMessage() ? 'bg-white' : 'bg-slate-200'"
         >
           {{ message().user.charAt(0).toUpperCase() }}
         </div>
@@ -36,12 +36,12 @@ import { ChatMessage } from "../../websocket.service";
         <!-- Burbuja -->
         <div
           class="inline-block max-w-[40%] rounded-md px-4 py-2 break-all"
-          [ngClass]="myMessage() ? 'bg-blue-100' : 'bg-gray-200'"
-        >
+          [ngClass]="myMessage() ? 'bg-white' : 'bg-slate-200'"
+>
           <!-- Nombre de los otros usuarios -->
           @if (!myMessage()) {
             <p
-              class="text-xs font-semibold mb-1"
+              class="text-xs font-bold mb-1"
               [style.color]="getUserColor(message().user)"
             >
               {{ message().user }}
