@@ -15,7 +15,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 npm install -g @angular/cli@19
 ````
 
-### Configuración y ejecución del backend (WebSocket)
+### Configuración del backend
 ````
 1. Entra a la carpeta del backend:
 cd websocket
@@ -27,7 +27,7 @@ bun install
 bun run index.ts
 ````
 
-### Configuración y ejecución del frontend (Angular)
+### Configuración del frontend
 ````
 1. Entra a la carpeta del cliente:
 cd cliente
