@@ -13,24 +13,29 @@ import { Router } from "@angular/router";
 // Definición del componente
 @Component({
   selector: 'app-login',
-  template: `<div class="flex flex-col justify-center min-h-screen items-center">
-    <div>
-      <h1 class="text-2xl font-bold mb-4">Login</h1>
-      <p class="text-sm">Ingresa tu nombre</p>
+  template: `
+  <div class="flex min-h-screen items-center justify-center bg-linear-to-br from-slate-900 via-gray-800 to-black">
+    <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+      <img src="image/logo_socketx.png" alt="Logo" class="w-48 h-40 mb-4 object-contain" />
+      <div class="w-80 max-w-sm bg-white rounded-xl p-6 pt-0">
+        <h1 class="text-2xl font-bold text-center mb-5">Inicio de sesión</h1>
+        <p class="text-sm">Ingresa tu nombre</p>
 
-      <div class="mt-4">
-        <label for=""></label>
-        <input
-          [formControl]="username"
-          type="text"
-          class="border w-full border-black outline-none rounded-md px-2 py-1 text-inherit"
-        />
         <div class="mt-4">
-          <button class="bg-black w-full px-4 py-2 text-white rounded-md cursor-pointer active:bg-black/80"
-            (click)="goToChat()"
-          >
-            Ingresar
-          </button>
+          <label for=""></label>
+          <input
+            [formControl]="username"
+            type="text"
+            placeholder="Ingresa tu nombre"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none"
+          />
+          <div class="mt-4">
+            <button class="bg-black w-full px-4 py-2 text-white rounded-md cursor-pointer active:bg-black/80"
+              (click)="goToChat()"
+            >
+              Ingresar
+            </button>
+          </div>
         </div>
       </div>
     </div>
