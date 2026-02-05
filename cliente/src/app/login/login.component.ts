@@ -30,9 +30,8 @@ import { Router } from "@angular/router";
             class="w-full border border-gray-300 rounded-md px-3 py-2 outline-none"
           />
           <div class="mt-4">
-            <button class="bg-black w-full px-4 py-2 text-white rounded-md cursor-pointer active:bg-black/80"
-              (click)="goToChat()"
-            >
+            <button class="bg-slate-900 w-full px-4 py-2 text-white rounded-md cursor-pointer hover:bg-slate-700 transition"
+              (click)="goToChat()">
               Ingresar
             </button>
           </div>
